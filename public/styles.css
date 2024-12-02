@@ -17,4 +17,5 @@ canvas {
   background: white;
   height: 20em;
   width: 40em;
+  max-width: 90svw;
 }
