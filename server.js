@@ -13,6 +13,9 @@ io.on("connection", (socket) => {
   socket.on("drawing", (data) => {
     socket.broadcast.emit("drawing", data);
   });
+  socket.on("clearCanvas", () => {
+    socket.broadcast.emit("clearCanvas");
+  });
 });
 
 const PORT = 3000;
