@@ -80,3 +80,32 @@ blueButton.addEventListener("click", () => {
 blackButton.addEventListener("click", () => {
   strokeColor = "black";
 });
+
+// Prevent scrolling when touching the canvas, iOS specific bug
+document.body.addEventListener(
+  "touchstart",
+  function (e) {
+    if (e.target == canvas) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
+document.body.addEventListener(
+  "touchend",
+  function (e) {
+    if (e.target == canvas) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
+document.body.addEventListener(
+  "touchmove",
+  function (e) {
+    if (e.target == canvas) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
