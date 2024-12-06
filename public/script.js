@@ -3,6 +3,8 @@ const ctx = canvas.getContext("2d");
 const socket = io(); // Connect to WebSocket server
 let isDrawing = false;
 
+let strokeColor = "black";
+
 // Capture mouse/touch events
 canvas.addEventListener("mousedown", startDrawing);
 canvas.addEventListener("mousemove", draw);
@@ -23,12 +25,12 @@ function draw(event) {
   if (!isDrawing) return;
   const { x, y } = getCoordinates(event);
   ctx.lineTo(x, y);
-  ctx.strokeStyle = "black";
+  ctx.strokeStyle = strokeColor;
   ctx.lineWidth = 2;
   ctx.stroke();
 
   // Emit drawing data
-  const data = { x, y, eventType: "draw" };
+  const data = { x, y, eventType: "draw", color: strokeColor };
   socket.emit("drawing", data);
 }
 
@@ -47,7 +49,7 @@ function getCoordinates(event) {
 // Listen for incoming drawing data
 socket.on("drawing", (data) => {
   ctx.lineTo(data.x, data.y);
-  ctx.strokeStyle = "black";
+  ctx.strokeStyle = data.color;
   ctx.lineWidth = 2;
   ctx.stroke();
 });
@@ -55,12 +57,26 @@ socket.on("drawing", (data) => {
 // Clear canvas button
 const clearButton = document.getElementById("clearCanvasButton");
 
-clearButton.addEventListener("click", function(){
+clearButton.addEventListener("click", function () {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  socket.emit("clearCanvas")
-})
+  socket.emit("clearCanvas");
+});
 
 // Listen for clear canvas event
-socket.on("clearCanvas", function(){
+socket.on("clearCanvas", function () {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-})
+});
+
+const yellowButton = document.getElementById("yellowBtn");
+const blueButton = document.getElementById("blueBtn");
+const blackButton = document.getElementById("blackBtn");
+
+yellowButton.addEventListener("click", () => {
+  strokeColor = "yellow";
+});
+blueButton.addEventListener("click", () => {
+  strokeColor = "blue";
+});
+blackButton.addEventListener("click", () => {
+  strokeColor = "black";
+});
