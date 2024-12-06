@@ -17,3 +17,9 @@ canvas {
   background: white;
   max-width: 90svw;
 }
+
+.signiatureField {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
