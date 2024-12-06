@@ -51,3 +51,16 @@ socket.on("drawing", (data) => {
   ctx.lineWidth = 2;
   ctx.stroke();
 });
+
+// Clear canvas button
+const clearButton = document.getElementById("clearCanvasButton");
+
+clearButton.addEventListener("click", function(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  socket.emit("clearCanvas")
+})
+
+// Listen for clear canvas event
+socket.on("clearCanvas", function(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+})
