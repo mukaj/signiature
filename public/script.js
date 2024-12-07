@@ -14,6 +14,35 @@ canvas.addEventListener("touchstart", startDrawing);
 canvas.addEventListener("touchmove", draw);
 canvas.addEventListener("touchend", stopDrawing);
 
+// Prevent scrolling when touching the canvas, iOS specific bug
+document.body.addEventListener(
+  "touchstart",
+  function (e) {
+    if (e.target == canvas) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
+document.body.addEventListener(
+  "touchend",
+  function (e) {
+    if (e.target == canvas) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
+document.body.addEventListener(
+  "touchmove",
+  function (e) {
+    if (e.target == canvas) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
+
 function startDrawing(event) {
   isDrawing = true;
   const { x, y } = getCoordinates(event);
@@ -81,31 +110,7 @@ blackButton.addEventListener("click", () => {
   strokeColor = "black";
 });
 
-// Prevent scrolling when touching the canvas, iOS specific bug
-document.body.addEventListener(
-  "touchstart",
-  function (e) {
-    if (e.target == canvas) {
-      e.preventDefault();
-    }
-  },
-  { passive: false }
-);
-document.body.addEventListener(
-  "touchend",
-  function (e) {
-    if (e.target == canvas) {
-      e.preventDefault();
-    }
-  },
-  { passive: false }
-);
-document.body.addEventListener(
-  "touchmove",
-  function (e) {
-    if (e.target == canvas) {
-      e.preventDefault();
-    }
-  },
-  { passive: false }
-);
+const userCountParagraph = document.getElementById("connectedClientNumber");
+socket.on("userCount", (newCount) => {
+  userCountParagraph.textContent = `Current active user count is: ${newCount}`;
+});
